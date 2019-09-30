@@ -1,0 +1,2 @@
+﻿GameManager.obj : error LNK2019: unresolved external symbol "public: static class PuruGameSystem * __cdecl PuruGameSystem::GetInstance(void)" (?GetInstance@PuruGameSystem@@SAPAV1@XZ) referenced in function "public: void __thiscall GameManager::StartUp(void)" (?StartUp@GameManager@@QAEXXZ)
+D:\Swapnil\Projects\source\repos\PGEGalaga\Debug\PGEGalaga.exe : fatal error LNK1120: 1 unresolved externals

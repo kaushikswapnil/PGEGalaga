@@ -1,0 +1,39 @@
+/First line must be background for Game Screen
+/Second line must be texture sheet for the Game
+/Each line after it follows the pattern 
+/G G_Type(1 texture 2 sprite 3 Animation 4 Quad) tX tY  W H
+/0 X Y tX tY W H
+/1 nFrames FPS tX tY W H
+/2 type nFrames FPS tX tY W H X Y <optional special file>
+/3 nFrames FPS tX tY W H <optional special file>
+/4 tX tY W H
+/5 tX tY W H
+/ID (0 - Player, 1 - Player Bullet, 2 - Enemy Bullet )
+/    0 - Player Dead Animation, 1 - Enemy Standard animation,
+/A AudioFile
+/L LevelNo X Y
+/L LevelNo type X Y (type BLUE=1 GREEN RED YELLOW)
+/Please note, for player, player bullet, and enemy bullet, only the first mention is read
+/Please note, only one tex file each for gameBg menu BG cursor and texGalaga is accepted 
+/Always start file with info for cursortex, followed by menubgtex, followed by gamebgtex, followed by texGalaga
+/Please note for enemies with different standard animations, type must be incremented. If the given _ID already exists, that enemy is ignored
+
+/Placing player sprite and animation locations
+G 2 156 51 24 24 GameTexture PlayerSprite
+G 3 4 2 201 46 40 34 GameTexture PlayerDeadAnimation
+/Placing enemy animations
+G 3 2 2 156 120 24 24 GameTexture BlueEnemyAnimation
+/Placing bullet sprites
+G 2 374 51 3 8 GameTexture PlayerBulletSprite
+G 2 366 195 3 8 GameTexture EnemyBulletSprite
+L 1 1 400 550 
+L 1 1 150 100 
+L 1 1 200 100 
+L 1 1 250 100 
+L 1 1 300 100 
+L 1 1 350 100 
+L 1 1 400 100 
+L 1 1 450 100 
+L 1 1 500 100
+L 1 1 550 100 
+L 1 2 600 100  

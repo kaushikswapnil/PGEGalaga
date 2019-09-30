@@ -1,0 +1,57 @@
+/ First line must be background for Game Screen
+/ Second line must be texture sheet for the Game
+/ Each line after it follows the pattern 
+/ G G_Type(1 texture 2 sprite 3 Animation 4 Quad) tX tY  W H
+/ 0 X Y tX tY W H
+/ 1 nFrames FPS tX tY W H
+/ 2 type nFrames FPS tX tY W H X Y <optional special file>
+/ 3 nFrames FPS tX tY W H <optional special file>
+/ 4 tX tY W H
+/ 5 tX tY W H
+/ ID (0 - Player, 1 - Player Bullet, 2 - Enemy Bullet )
+/     0 - Player Dead Animation, 1 - Enemy Standard animation,
+/ A AudioFile
+/ L LevelNo X Y
+/ Please note, for player, player bullet, and enemy bullet, only the first mention is read
+/ Please note, only one tex file each for gameBg menu BG cursor and texGalaga is accepted 
+/ Always start file with info for cursortex, followed by menubgtex, followed by gamebgtex, followed by texGalaga
+/ Please note for enemies with different standard animations, type must be incremented. If the given _ID already exists, that enemy is ignored
+A sound01.wav Sound01
+A sound01.wav MenuSND
+A sound01.wav Explosion
+A sound01.wav BulletSND
+G 1 15 21 cursor.dds CursorTexture
+G 1 64 64 bg.dds MenuBG
+G 1 402 402 gamebg.dds GameBG
+G 1 424 383 galaga_sheet.dds GameTexture
+F font1data.txt font1.dds Font1
+G 2 0.0 0.0 15 21 CursorTexture CursorSprite
+/ Placing player sprite and animation locations
+G 2 0.367925 0.133159 24 24 GameTexture PlayerSprite
+G 3 4 2 0.474057 0.120104 40 34 GameTexture PlayerDeadAnimation
+/ Placing enemy animations
+G 3 2 2 0.367925 0.313316 24 24 GameTexture BlueEnemyAnimation
+G 3 2 2 0.367925 0.250653 24 24 GameTexture GreenEnemyAnimation
+G 3 2 2 0.367925 0.375979 24 24 GameTexture RedEnemyAnimation
+G 3 2 2 0.367925 0.438642 24 24 GameTexture YellowEnemyAnimation
+G 3 5 2 0.488208 0.516971 24 24 GameTexture DeadEnemyAnimation
+/ Placing bullet sprites
+G 2 0.882075 0.133159 3 8 GameTexture PlayerBulletSprite
+G 2 0.863208 0.509138 3 8 GameTexture EnemyBulletSprite
+L 0 400 550 
+L 1 1 350 100 
+L 1 1 400 100 
+L 1 1 450 100 
+L 2 1 300 100 
+L 2 2 350 100 
+L 2 2 400 100 
+L 2 2 450 100 
+L 2 1 500 100 
+L 3 2 250 100 
+L 3 2 300 100 
+L 3 3 350 100 
+L 3 4 400 100 
+L 3 3 450 100
+L 3 2 500 100 
+L 3 2 550 100 
+L 3 2 550 100 

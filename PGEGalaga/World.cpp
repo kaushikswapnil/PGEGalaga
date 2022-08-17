@@ -10,24 +10,11 @@
 
 #include <time.h>
 
-World* World::m_worldInstance{ nullptr };
-
 World::World() 
 {
 	srand((unsigned int)time(NULL));
 	LoadLevel();
 }
-
-World::World(const World &)
-{
-}
-
-World & World::operator=(const World &)
-{
-	// TODO: insert return statement here
-	return *this;
-}
-
 
 World::~World()
 {
@@ -36,24 +23,6 @@ World::~World()
 		delete (*itWorldEntities);
 		itWorldEntities = m_worldEntities.erase(itWorldEntities);
 	}
-}
-
-World * World::GetInstance()
-{
-	if (!m_worldInstance) {
-		m_cs.Lock();
-		if (!m_worldInstance)
-			m_worldInstance = new World();
-		m_cs.Unlock();
-	}
-	return m_worldInstance;
-}
-
-void World::DestroyInstance()
-{
-	if (m_worldInstance)
-		delete m_worldInstance;
-	m_worldInstance = nullptr;
 }
 
 void World::Update(float dt)

@@ -5,12 +5,8 @@
 
 class PuruGameSystem;
 
-class InputManager : public Publisher, public Singleton {
+class InputManager : public Publisher, public Singleton<InputManager> {
 private:
-	InputManager();
-	InputManager(const InputManager&) = delete;
-	InputManager& operator=(const InputManager&) = delete;
-	static InputManager* m_inputManagerInstance;
 
 	HANDLE m_handleInputThread;
 
@@ -19,11 +15,10 @@ private:
 	std::map<int, bool> m_pressedKeys{};
 
 	PuruGameSystem* m_pge;
+	CriticalSection m_cs;
 
 public:
-	static InputManager* GetInstance();
 	~InputManager();
-	static void DestroyInstance();
 	void ShutDown();
 
 	bool Initiate(PuruGameSystem* _pge);

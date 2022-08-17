@@ -5,43 +5,6 @@
 #include"Resource_LevelPositions.h"
 #include<sstream>
 
-LevelManager* LevelManager::m_levelManagerInstance = nullptr;
-
-
-
-LevelManager::LevelManager() : Singleton()
-{
-}
-
-LevelManager::LevelManager(const LevelManager &)
-{
-}
-
-LevelManager & LevelManager::operator=(const LevelManager &)
-{
-	// TODO: insert return statement here
-	return *this;
-}
-
-
-LevelManager::~LevelManager()
-{
-}
-
-LevelManager * LevelManager::GetInstance()
-{
-	if (!m_levelManagerInstance)
-	{
-		m_cs.Lock();
-		if (!m_levelManagerInstance)
-		{
-			m_levelManagerInstance = new LevelManager();
-		}
-		m_cs.Unlock();
-	}
-	return m_levelManagerInstance;
-}
-
 void LevelManager::LoadLevel(long long nextLevelLoadTime, int level, std::vector<WorldEntity*>& worldEntities)
 {
 	std::vector<std::pair<int, Globals::Position>> levelPositions;

@@ -10,34 +10,10 @@
 #include <puruSprite.h>
 #include <puruFont.h>
 
-GraphicsManager* GraphicsManager::m_graphicsManagerInstance{ nullptr };
-
-GraphicsManager::GraphicsManager() : Singleton(), m_pge(nullptr), m_gui(nullptr)
-{
-
-}
-
-GraphicsManager::GraphicsManager(const GraphicsManager &)
-{
-}
-
-GraphicsManager & GraphicsManager::operator=(const GraphicsManager &)
-{
-	// TODO: insert return statement here
-	return *this;
-}
-
 GraphicsManager::~GraphicsManager()
 {
 	ResetGUI();
 	m_pge = nullptr;
-}
-
-void GraphicsManager::DestroyInstance()
-{
-	if (m_graphicsManagerInstance)
-		delete m_graphicsManagerInstance;
-	m_graphicsManagerInstance = nullptr;
 }
 
 bool GraphicsManager::Initialize(PuruGameSystem* _pge)
@@ -87,19 +63,6 @@ void GraphicsManager::Render(Resource_Font* _resFont, float _x, float _y, const 
 {
 	char* cmessage = const_cast<char*>(_message);
 	Render(_resFont, _x, _y, cmessage);
-}
-
-
-
-GraphicsManager * GraphicsManager::GetInstance()
-{
-	if (!m_graphicsManagerInstance) {
-		m_cs.Lock();
-		if (!m_graphicsManagerInstance)
-			m_graphicsManagerInstance = new GraphicsManager();
-		m_cs.Unlock();
-	}
-	return m_graphicsManagerInstance;
 }
 
 void GraphicsManager::RenderFunc(puruQuad& _quad)

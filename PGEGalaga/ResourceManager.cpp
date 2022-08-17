@@ -8,34 +8,6 @@
 #include"Resource_Animation.h"
 #include<sstream>
 
-ResourceManager* ResourceManager::m_resourceManagerInstance{ nullptr };
-
-
-ResourceManager::ResourceManager() : Singleton()
-{
-}
-
-ResourceManager::ResourceManager(const ResourceManager &)
-{
-}
-
-ResourceManager & ResourceManager::operator=(const ResourceManager &)
-{
-	// TODO: insert return statement here
-	return *this;
-}
-
-ResourceManager * ResourceManager::GetInstance()
-{
-	if (!m_resourceManagerInstance) {
-		m_cs.Lock();
-		if (!m_resourceManagerInstance)
-			m_resourceManagerInstance = new ResourceManager();
-		m_cs.Unlock();
-	}
-	return m_resourceManagerInstance;
-}
-
 bool ResourceManager::Initiate()
 {
 	bool result = false;
@@ -50,13 +22,6 @@ ResourceManager::~ ResourceManager()
 	//ShutDown();
 	ClearResources();
 }
-
-void ResourceManager::DestroyInstance()
- {
-	 if (m_resourceManagerInstance)
-		 delete m_resourceManagerInstance;
-	 m_resourceManagerInstance = nullptr;
- }
 
 void ResourceManager::ShutDown()
 {

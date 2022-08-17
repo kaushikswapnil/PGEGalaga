@@ -54,7 +54,6 @@ void PlayingState::Exit()
 {
 	Subscriber* sub = this;
 	InputManager::GetInstance()->RemoveSubscriber(sub);
-	m_world->DestroyInstance();
 	m_world = nullptr;
 }
 

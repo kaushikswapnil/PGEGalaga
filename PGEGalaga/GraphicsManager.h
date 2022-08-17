@@ -13,24 +13,17 @@ class puruAnim;
 class puruQuad;
 class puruSprite;
 
-class GraphicsManager : public Singleton
+class GraphicsManager : public Singleton<GraphicsManager>
 {
 private:
 
-	GraphicsManager();
-	GraphicsManager(const GraphicsManager&);
-	GraphicsManager& operator=(const GraphicsManager&);
-
-	static GraphicsManager* m_graphicsManagerInstance;
-
 	puruGUI *m_gui{ nullptr };
 	PuruGameSystem* m_pge;
+	CriticalSection m_cs;
 
 
 public:
-	static GraphicsManager* GetInstance();
 	~GraphicsManager();
-	static void DestroyInstance();
 
 	bool Initialize(PuruGameSystem* _pge);
 

@@ -5,41 +5,45 @@
 #include"InputManager.h"
 #include"ResourceManager.h"
 #include"AudioManager.h"
-
-GameManager* GameManager::m_gameManagerInstance{ nullptr };
-
-GameManager::GameManager() : Singleton() {
-}
-
+#include <functional>
 GameManager::~GameManager() {
-	m_GraphicsManager->DestroyInstance();
-	m_AudioManager->DestroyInstance();
-	m_GameStateManager->DestroyInstance();
-	m_ResourceManager->DestroyInstance();
-	m_InputManager->DestroyInstance();
 	ShutDown();
 }
 
-GameManager * GameManager::GetInstance()
-{
-	if (!m_gameManagerInstance) {
-		m_cs.Lock();
-		if (!m_gameManagerInstance)
-			m_gameManagerInstance = new GameManager();
-		m_cs.Unlock();
+bool FrameFunc() {
+	if (!GameManager::GetInstance()->IsStarted())
+	{
+		return false;
 	}
-	return m_gameManagerInstance;
+	float dt = GameManager::GetInstance()->GetPGEPointer()->Timer_GetDelta();
+
+	GameStateManager::GetInstance()->GetState()->Update(dt);
+
+	return true;
+}
+
+bool RenderFunc() {
+
+	if (!GameManager::GetInstance()->IsStarted())
+	{
+		return false;
+	}
+
+	GraphicsManager::GetInstance()->BeginScene();
+	GameStateManager::GetInstance()->GetState()->Render();
+	GraphicsManager::GetInstance()->EndScene();
+	return true;
 }
 
 void GameManager::StartUp() {
 	m_pge = PuruGameSystem::GetInstance();
 
-	m_pge->System_SetState(PURU_FRAME, FrameFunc);
-	m_pge->System_SetState(PURU_RENDER, RenderFunc);
-	m_pge->System_SetState(PURU_WINDOWED, true);
-	m_pge->System_SetState(PURU_SCREENWIDTH, 800);
-	m_pge->System_SetState(PURU_SCREENHEIGHT, 600);
-	m_pge->System_SetState(PURU_FPS, 60);	
+	m_pge->System_SetState(puruCallBackState::PURU_FRAME, FrameFunc);
+	m_pge->System_SetState(puruCallBackState::PURU_RENDER, RenderFunc);
+	m_pge->System_SetState(puruBoolState::PURU_WINDOWED, true);
+	m_pge->System_SetState(puruIntState::PURU_SCREENWIDTH, 800);
+	m_pge->System_SetState(puruIntState::PURU_SCREENHEIGHT, 600);
+	m_pge->System_SetState(puruIntState::PURU_FPS, 60);
 	
 	if (m_pge->Initialize()) { //System_initiate() initiates all h/w and s/w and creates application window. In case of error, message is stored in System_GetErrorMessage()
 
@@ -65,31 +69,6 @@ void GameManager::ShutDown() {
 	m_pge = nullptr;
 }
 
-bool GameManager::FrameFunc() {
-	if (!GameManager::GetInstance()->m_bStart)
-	{
-			return false;
-	}
-	float dt = GameManager::GetInstance()->GetPGEPointer()->Timer_GetDelta();
-
-	GameStateManager::GetInstance()->GetState()->Update(dt);
-
-	return true;
-}
-
-bool GameManager::RenderFunc() {
-
-	if (!GameManager::GetInstance()->m_bStart)
-	{
-		return false;
-	}
-
-	GameManager::GetInstance()->m_GraphicsManager->BeginScene();
-	GameStateManager::GetInstance()->GetState()->Render();
-	GameManager::GetInstance()->m_GraphicsManager->EndScene();
-	return true;
-}
-
 PuruGameSystem * GameManager::GetPGEPointer()
 {
 	return m_pge;
@@ -106,35 +85,26 @@ bool GameManager::GetStart()
 	return m_bStart;
 }
 
-void GameManager::DestroyInstance()
-{
-	if (m_gameManagerInstance)
-		delete m_gameManagerInstance;
-	m_gameManagerInstance = nullptr;
-}
-
 bool GameManager::Initialize()
 {
 	bool result = false;
-	
-	LoadManagers();
 
-	result = m_InputManager->Initiate(m_pge);
+	result = InputManager::GetInstance()->Initiate(m_pge);
 	if (!result)
 	{
 		return false;
 	}
-	result = m_ResourceManager->Initiate();
+	result = ResourceManager::GetInstance()->Initiate();
 	if (!result)
 	{
 		return false;
 	}
-	result = m_GraphicsManager->Initialize(m_pge);
+	result = GraphicsManager::GetInstance()->Initialize(m_pge);
 	if (!result)
 	{
 		return false;
 	}
-	result = m_GameStateManager->Initialize();
+	result = GameStateManager::GetInstance()->Initialize();
 	if (!result)
 	{
 		return false;
@@ -142,15 +112,5 @@ bool GameManager::Initialize()
 
 	return true;
 }
-
-void GameManager::LoadManagers()
-{
-	m_InputManager = InputManager::GetInstance();
-	m_ResourceManager = ResourceManager::GetInstance();
-	m_GameStateManager = GameStateManager::GetInstance();
-	m_GraphicsManager = GraphicsManager::GetInstance();
-	m_AudioManager = AudioManager::GetInstance();
-}
-
 
 

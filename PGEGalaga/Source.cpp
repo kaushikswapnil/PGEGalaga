@@ -6,9 +6,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Game->StartUp();
 
-	delete Game;
-	Game = nullptr;
-
 	return 0;
 }
 

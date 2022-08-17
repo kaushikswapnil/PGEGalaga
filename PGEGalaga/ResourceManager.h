@@ -4,13 +4,9 @@
 #include"Resource_Wrapper.h"
 #include"Singleton.h"
 
-class ResourceManager : public Singleton
+class ResourceManager : public Singleton<ResourceManager>
 {
 private:
-	ResourceManager();
-	ResourceManager(const ResourceManager&);
-	ResourceManager& operator=(const ResourceManager&);
-	static ResourceManager* m_resourceManagerInstance;
 
 	HANDLE m_handleLoadThread;
 
@@ -20,10 +16,8 @@ private:
 	std::map<std::string, Resource_Wrapper*> m_mapResources;
 
 public:
-	static ResourceManager* GetInstance();
 	bool Initiate();
 	~ResourceManager();
-	static void DestroyInstance();
 	void ShutDown();
 
 	bool LoadFile(std::string fileName);

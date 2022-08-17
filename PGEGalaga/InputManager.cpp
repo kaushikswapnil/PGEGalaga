@@ -5,34 +5,10 @@
 #include <strsafe.h>
 #include <PuruGameSystem.h>
 
-InputManager* InputManager::m_inputManagerInstance{ nullptr };
-
-InputManager::InputManager() : Publisher(), Singleton(), m_pge(nullptr)
-{
-}
-
-InputManager * InputManager::GetInstance()
-{
-	if (!m_inputManagerInstance) {
-		m_cs.Lock();
-		if(!m_inputManagerInstance)
-			m_inputManagerInstance = new InputManager();
-		m_cs.Unlock();
-	}
-	return m_inputManagerInstance;
-}
-
 InputManager::~InputManager()
 {
 	ShutDown();
 	m_pressedKeys.clear();
-}
-
-void InputManager::DestroyInstance()
-{
-	if (m_inputManagerInstance)
-		delete m_inputManagerInstance;
-	m_inputManagerInstance = nullptr;
 }
 
 void InputManager::ShutDown()

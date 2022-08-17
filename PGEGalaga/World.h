@@ -2,13 +2,9 @@
 #include"WorldEntity.h"
 #include"Singleton.h"
 
-class World : public Singleton{
+class World : public Singleton<World>
+{
 private:
-	World();
-	World(const World&);
-	World& operator=(const World&);
-	static World* m_worldInstance;
-
 	bool m_bGameWon{ false };
 	int m_score{ 0 };
 	int m_currentLevel{ 1 };
@@ -20,9 +16,8 @@ private:
 	std::vector<WorldEntity*> m_worldEntities{};
 
 public:
+	World();
 	~World();
-	static World* GetInstance();
-	static void DestroyInstance();
 
 	void LoadLevel();
 	void DestroyDeletedObjects();
